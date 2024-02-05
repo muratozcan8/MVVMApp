@@ -4,7 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="mainActivityObject"
+            type="com.muratozcan.mvvmproject.MainActivity" />
+        <variable
+            name="calculateResult"
+            type="String" />
+        <import type="android.view.View"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,8 +23,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="TextView"
-            android:textSize="24sp"
+            android:text="@{calculateResult}"
+            android:textColor="@{Integer.parseInt(calculateResult) > 10 ? @color/red : @color/blue }"
+            android:visibility="@{Integer.parseInt(calculateResult) > 0 ? View.VISIBLE : View.INVISIBLE}"
+            android:textSize="@{calculateResult.length() > 1 ? @dimen/dimen2 : @dimen/dimen1 }"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -55,6 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="52dp"
             android:text="SUM"
+            android:onClick="@{() -> mainActivityObject.buttonSumClick(editTextNumber1.getText().toString(),editTextNumber2.getText().toString())}"
             app:layout_constraintEnd_toStartOf="@+id/buttonMultiplication"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -66,6 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="52dp"
             android:text="MULT"
+            android:onClick="@{() -> mainActivityObject.buttonMultClick(editTextNumber1.getText().toString(),editTextNumber2.getText().toString())}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/buttonSum"

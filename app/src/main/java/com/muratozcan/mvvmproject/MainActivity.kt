@@ -2,39 +2,28 @@ package com.muratozcan.mvvmproject
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import com.muratozcan.mvvmproject.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private val viewModel: MainActivityViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding =  DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding.mainActivityObject = this
 
-        binding.textViewResult.text = "0"
-
-        binding.buttonSum.setOnClickListener {
-            val number1str = binding.editTextNumber1.text.toString()
-            val number2str = binding.editTextNumber2.text.toString()
-
-            val number1 = number1str.toInt()
-            val number2 = number2str.toInt()
-            val sum = number1 + number2
-
-            binding.textViewResult.text = sum.toString()
-
+        viewModel.result.observe(this) {
+            binding.calculateResult = it
         }
+    }
 
-        binding.buttonMultiplication.setOnClickListener {
-            val number1str = binding.editTextNumber1.text.toString()
-            val number2str = binding.editTextNumber2.text.toString()
+    fun buttonSumClick(number1str:String, number2str:String){
+        viewModel.sum(number1str, number2str)
+    }
 
-            val number1 = number1str.toInt()
-            val number2 = number2str.toInt()
-            val mult = number1 * number2
-
-            binding.textViewResult.text = mult.toString()
-
-        }
+    fun buttonMultClick(number1str:String, number2str:String){
+        viewModel.mult(number1str, number2str)
     }
 }
